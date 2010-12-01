@@ -20,8 +20,6 @@ class Game(dict):
                 node = node.next
         find_content(node.properties, ["name", "sourcefile", "cloneof", "isbios"], True)
         find_content(node.children, ["description", "year", "manufacturer"])
-        try: self["year"]
-        except: self["year"] = "unknown"
         try:
             find_content(find_node(node.children, "display").properties, ["type", "rotate", "width", "height"], True)
             find_content(find_node(node.children, "driver").properties, ["status"], True)
@@ -33,13 +31,17 @@ class Game(dict):
             self["height"] = None
             self["status"] = None
 
+        try: self["year"]
+        except KeyError: self["year"] = "unknown"
+        try: self["isbios"]
+        except KeyError: self["isbios"] = "no"
         try: self["cloneof"]
         except KeyError:
             self["parent"] = True
         else:
             self["parent"] = False
 
-        if self["rotate"] == 0 or self["rotate"] == 180:
+        if self["rotate"] == "0" or self["rotate"] == "180":
             self["orientation"] = "Horizontal"
         else:
             self["orientation"] = "Vertical"
@@ -48,9 +50,8 @@ class Game(dict):
             self["width"] = None
             self["height"] = None
 
-        try: self["isbios"]
-        except KeyError:
-            self["isbios"] = "no"
+    def __repr__(self):
+        return self["description"]
 
 class Games(list):
     def __init__(self, copy_games=None, game_filter=None):
@@ -71,6 +72,9 @@ class Games(list):
                 node = node.next
         find_games(root)
         doc.freeDoc()
+        def sort_key(item):
+            return repr(item).lower()
+        self.sort(key=sort_key)
             
 
 class GameFilter:
@@ -89,3 +93,4 @@ class AttrList(list):
                     self.append(game[attr])
             except KeyError:
                 pass
+        self.sort()
