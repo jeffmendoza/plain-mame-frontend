@@ -1,4 +1,3 @@
-
 import libxml2
 
 def find_node(node, name):
@@ -9,6 +8,8 @@ def find_node(node, name):
     return None
 
 class Game(dict):
+    search_attributes = ["sourcefile", "year", "manufacturer", "type", "orientation", "status", "parent", "isbios"]
+
     def __init__(self, node):
         def find_content(node, namelist, prop=False):
             while node is not None:

@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+import sys
+
+PKGDATADIR="../datadir"
+extra_python_dir=".."
+
+sys.path.extend([PKGDATADIR, extra_python_dir])
+
+import pmfe_cli
+pmfe_cli.main(sys.argv[1:])
