@@ -3,6 +3,7 @@ import games
 class Core:
     def get_game_list(self):
         game_list = RomList(None, dummy=True)
+        print game_list
         mame_games = games.Games()
         mame_games.load_from_xml(Conf.xml, game_list)
         return mame_games
@@ -26,17 +27,17 @@ class Core:
         print "Playing game %s now" % game["name"]
 
 
-class __RomList(list):
+class RomList(list):
     def __init__(self, rom_dir, dummy=False):
         if dummy:
             game_list_file = open('../test/list')
-            self = [ line.strip() for line in game_list_file.readlines() ]
+            for line in game_list_file.readlines():
+                self.append(line.strip())
             game_list_file.close()
         else:
             pass
 
-
-class __Conf:
+class Conf:
     xml = '../test/mame.xml'
     mame_bin = "mamebin"
     rom_dir = "romdir"
