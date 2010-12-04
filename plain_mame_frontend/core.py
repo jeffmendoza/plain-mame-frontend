@@ -3,7 +3,6 @@ import games
 class Core:
     def get_game_list(self):
         game_list = RomList(None, dummy=True)
-        print game_list
         mame_games = games.Games()
         mame_games.load_from_xml(Conf.xml, game_list)
         return mame_games
