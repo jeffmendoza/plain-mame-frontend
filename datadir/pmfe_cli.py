@@ -2,6 +2,7 @@ from plain_mame_frontend import core
 import pmfe_tui
 
 def main(args):
+    """Main entry into the cli version of pmfe."""
     pmfe_core = core.Core()
     mame_games = pmfe_core.get_game_list()
     attributes = pmfe_core.get_search_attributes()

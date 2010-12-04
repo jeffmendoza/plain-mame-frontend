@@ -1,6 +1,12 @@
 import curses
 
 def play_query(game):
+    """Ask user if they want to play arg 'game'.
+
+    game -- game object
+    Returns a boolean
+
+    """
     print_game_info(game)
     if raw_input("Play game? (y/n): ") == "y":
         return True
@@ -8,6 +14,13 @@ def play_query(game):
         return False
 
 def get_selection(choose, titles):
+    """UI to have a user select an item from choose
+
+    choose -- list of items to choose from, must support str()
+    titles -- list of srings to provide context
+    Returns the item chosen from the list choose
+
+    """
     return curses.wrapper(get_selection_wrapped, choose, titles)
 
 def get_selection_wrapped(stdscr, choose, titles):
