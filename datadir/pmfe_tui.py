@@ -34,24 +34,31 @@ def get_selection_wrapped(stdscr, choose, titles):
     pad_loc = 0
     title_len = max(len(title) for title in titles)
     while True:
-        line = 0
-        for item in choose:
+        for line, item in enumerate(choose):
             if line == selection:
                 pad.addnstr(line, 0, str(item), width, curses.A_REVERSE)
             else:
                 pad.addnstr(line, 0, str(item), width)
-            line += 1
-        if selection - pad_loc > height - 4 and len(choose) - pad_loc > height: pad_loc += 1
-        if selection - pad_loc < 3 and pad_loc != 0: pad_loc -= 1
-        for title in titles:
-            pad.addstr(pad_loc + 1 + titles.index(title), width - title_len - 1, str(title))
+        if selection - pad_loc > height - 4:
+            pad_loc = selection - height + 4
+            if pad_loc > len(choose) - height: pad_loc = len(choose) - height
+        if selection - pad_loc < 3:
+            pad_loc = selection - 3
+            if pad_loc < 0: pad_loc = 0
+        for num, title in enumerate(titles):
+            pad.addstr(pad_loc + 1 + num, width - title_len - 1, str(title))
         pad.refresh(pad_loc,0, 0,0, min(height, pad_len) - 1, width)
         char = pad.getch()
-        if char == curses.KEY_UP and selection != 0: selection -= 1
-        if char == curses.KEY_DOWN and selection != len(choose) - 1: selection += 1
+        if char == curses.KEY_UP: selection -= 1
+        if char == curses.KEY_DOWN: selection += 1
+        if char == curses.KEY_PPAGE: selection -= height - 4
+        if char == curses.KEY_NPAGE: selection += height - 4
+        if selection < 0: selection = 0
+        if selection >= len(choose): selection = len(choose) - 1
         if char == curses.KEY_ENTER or char == 10: break
         for j in range(len(titles)):
-            for i in range(title_len): pad.addch(pad_loc + 1 + j, width - title_len - 1 + i, ord(" "))
+            for i in range(title_len):
+                pad.addch(pad_loc + 1 + j, width - title_len - 1 + i, ord(" "))
     rv = choose[selection]
     curses.curs_set(1)
     pad.keypad(0)
