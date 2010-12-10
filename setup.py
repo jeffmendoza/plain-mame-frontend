@@ -10,7 +10,7 @@ setup(name='plain-mame-frontend',
       scripts=['bindir/pmfe',],
       license='GPL',
       long_description="""Plain MAME Frontend is a basic, easy to use frontend to mame.
-                       It works out of the box with no config, and provides menus customized to the set of games you have, not the whole mame set.
-                       PMFE is a console program used with the keyboard.
-                       """
+It works out of the box with no config, and provides menus customized to the set of games you have, not the whole mame set.
+PMFE is a console program used with the keyboard.
+"""
       )
