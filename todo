@@ -5,3 +5,11 @@ rpm/deb packaging
 curses game info and prompt
 logging
 GUI
+
+
+
+
+which way to go?
+      autotools - make
+      distutils - stdeb - try for now
+      standard deb stuff?
