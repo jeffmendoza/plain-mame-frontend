@@ -1,0 +1,23 @@
+#!/usr/bin/python
+
+import sys
+import os
+import cProfile
+
+python_dir=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..")
+sys.path.append(python_dir)
+
+import plain_mame_frontend.core
+
+def foo():
+    plain_mame_frontend.core.Core().get_game_list()
+
+cProfile.run('foo()', 'pmfeprof')
+
+import pstats
+p = pstats.Stats('pmfeprof')
+p.strip_dirs()
+
+p.sort_stats('cumulative').print_stats(10)
+print "------------------"
+p.sort_stats('time').print_stats(10)
