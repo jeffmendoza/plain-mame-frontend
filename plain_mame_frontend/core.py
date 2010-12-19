@@ -1,9 +1,13 @@
 import games
+import glob
+import os
+import subprocess
+import string
 
 class Core:
     def get_game_list(self):
         """Return a Games object containing the list of games available on the system."""
-        game_list = RomList(None, dummy=True)
+        game_list = RomList(Conf.rom_dir)
         mame_games = games.Games()
         mame_games.load_from_xml(Conf.xml, game_list)
         return mame_games
@@ -30,7 +34,7 @@ class Core:
 
     def play_game(self, game):
         """Execute mame to play game."""
-        print "Playing game %s now" % game["name"]
+        subprocess.Popen([Conf.mame_bin, game["name"]]).wait()
 
 
 class RomList(list):
@@ -47,11 +51,13 @@ class RomList(list):
                 self.append(line.strip())
             game_list_file.close()
         else:
-            pass
+            for rom in glob.glob(os.path.join(rom_dir, '*.zip')):
+                self.append(string.strip(os.path.basename(rom), ".zip"))
 
 class Conf:
+    import sys
     """Object to represend the system config, ini file."""
-    xml = '../test/mame.xml'
-    mame_bin = "mamebin"
-    rom_dir = "romdir"
+    xml = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..","test","mame.xml")
+    mame_bin = "/usr/games/mame"
+    rom_dir = os.path.expandvars("$HOME/.mame/roms")
 
