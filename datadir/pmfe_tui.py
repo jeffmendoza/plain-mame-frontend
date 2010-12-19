@@ -13,24 +13,28 @@ def play_query(game):
     else:
         return False
 
-def get_selection(choose, titles):
+def get_selection(choose, titles, default=None):
     """UI to have a user select an item from choose
 
     choose -- list of items to choose from, must support str()
     titles -- list of srings to provide context
+    default -- default selection, must be an item in choose
     Returns the item chosen from the list choose
 
     """
-    return curses.wrapper(get_selection_wrapped, choose, titles)
+    return curses.wrapper(get_selection_wrapped, choose, titles, default)
 
-def get_selection_wrapped(stdscr, choose, titles):
+def get_selection_wrapped(stdscr, choose, titles, default=None):
     curses.curs_set(0)
     (height, width) = stdscr.getmaxyx()
     stdscr.clear()
     pad_len = max(len(choose), len(titles) + 1)
     pad = curses.newpad(pad_len, width)
     pad.keypad(1)
-    selection = 0
+    if default is not None:
+        selection = choose.index(default)
+    else:
+        selection = 0
     pad_loc = 0
     title_len = max(len(title) for title in titles)
     while True:
@@ -42,6 +46,7 @@ def get_selection_wrapped(stdscr, choose, titles):
         if selection - pad_loc > height - 4:
             pad_loc = selection - height + 4
             if pad_loc > len(choose) - height: pad_loc = len(choose) - height
+            if pad_loc < 0: pad_loc = 0
         if selection - pad_loc < 3:
             pad_loc = selection - 3
             if pad_loc < 0: pad_loc = 0
