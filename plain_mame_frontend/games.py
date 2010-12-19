@@ -77,14 +77,13 @@ class Games(list):
         """
         doc = libxml2.parseFile(xmlfile)
         root = doc.children
-        def find_games(node):
-            while node is not None:
-                if node.type == "element" and node.name == "game":
-                    if gamelist is None or find_node(node.properties, "name").children.content in gamelist:
-                        self.append(Game(node))
-                find_games(node.children)
-                node = node.next
-        find_games(root)
+        while root is not None and root.type != 'element': root = root.next
+        game_node = root.children
+        while game_node is not None:
+            if game_node.name == "game":
+                if gamelist is None or find_node(game_node.properties, "name").children.content in gamelist:
+                    self.append(Game(game_node))
+            game_node = game_node.next
         doc.freeDoc()
         def sort_key(item):
             return repr(item).lower()
