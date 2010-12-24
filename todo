@@ -1,14 +1,14 @@
-autotools - make install?
+
 test cases - make check
 conf/ini mame dirs - real run
 rpm/deb packaging
-curses game info and prompt
+curses game info and prompt - pause after mame run, hit key
 logging
 GUI
 
 
 
-
+autotools - make install?
 which way to go?
       autotools - make
       distutils - stdeb - try for now
