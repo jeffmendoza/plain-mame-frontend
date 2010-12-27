@@ -18,7 +18,8 @@ class TestGamesModule(unittest.TestCase):
             game_list.append(line.strip())
         game_list_file.close()
         self.mame_games = games.Games()
-        self.mame_games.load_from_xml(os.path.join(this_dir, 'mame.xml'), game_list)        
+        self.mame_games.load_from_xml(os.path.join(this_dir, 'mame.xml'), 
+                                      game_list)
 
     def test_attr_list(self):
         attr_list = games.AttrList(self.mame_games, "sourcefile")

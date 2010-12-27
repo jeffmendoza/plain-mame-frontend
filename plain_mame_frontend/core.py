@@ -56,8 +56,9 @@ class RomList(list):
 
 class Conf:
     import sys
-    """Object to represend the system config, ini file."""
-    xml = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..","test","mame.xml")
+    """Object to represent the system config, ini file."""
+    xml = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..",
+                       "test","mame.xml")
     mame_bin = "/usr/games/mame"
     rom_dir = os.path.expandvars("$HOME/.mame/roms")
 

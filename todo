@@ -1,15 +1,22 @@
 
-test cases - make check
 conf/ini mame dirs - real run
-rpm/deb packaging
-curses game info and prompt - pause after mame run, hit key
-logging
-GUI
-
-
+    make ini, read mame_bin from ini, etc
+    read romdir from mame ini
+    logic to create mame.xml
 
 autotools - make install?
 which way to go?
       autotools - make
       distutils - stdeb - try for now
       standard deb stuff?
+
+rpm/deb packaging
+
+next ver:
+
+curses game info and prompt
+pause after mame run, hit key
+esc to go back, not just "back"
+left/right arrows too
+logging
+GUI

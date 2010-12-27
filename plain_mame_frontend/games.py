@@ -8,7 +8,8 @@ def find_node(node, name):
     return None
 
 class Game(dict):
-    search_attributes = ["sourcefile", "year", "manufacturer", "type", "orientation", "status", "parent", "isbios"]
+    search_attributes = ["sourcefile", "year", "manufacturer", "type",
+                         "orientation", "status", "parent", "isbios"]
 
     def __init__(self, node):
         """Build a Game object from an xml node from a mame xml file."""
@@ -20,11 +21,14 @@ class Game(dict):
                     else:
                         self[node.name] = node.content
                 node = node.next
-        find_content(node.properties, ["name", "sourcefile", "cloneof", "isbios"], True)
+        find_content(node.properties, ["name", "sourcefile", "cloneof",
+                                       "isbios"], True)
         find_content(node.children, ["description", "year", "manufacturer"])
         try:
-            find_content(find_node(node.children, "display").properties, ["type", "rotate", "width", "height"], True)
-            find_content(find_node(node.children, "driver").properties, ["status"], True)
+            find_content(find_node(node.children, "display").properties,
+                         ["type", "rotate", "width", "height"], True)
+            find_content(find_node(node.children, "driver").properties,
+                         ["status"], True)
         except AttributeError:
             self["rotate"] = None
             self["orientation"] = None
@@ -81,7 +85,9 @@ class Games(list):
         game_node = root.children
         while game_node is not None:
             if game_node.name == "game":
-                if gamelist is None or find_node(game_node.properties, "name").children.content in gamelist:
+                if (gamelist is None or
+                    find_node(game_node.properties, "name").children.content in
+                    gamelist):
                     self.append(Game(game_node))
             game_node = game_node.next
         doc.freeDoc()

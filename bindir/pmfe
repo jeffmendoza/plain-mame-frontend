@@ -3,8 +3,10 @@
 import sys
 import os
 
-PKGDATADIR=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..","datadir")
-extra_python_dir=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..")
+PKGDATADIR=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..",
+                        "datadir")
+extra_python_dir=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
+                              "..")
 
 sys.path.extend([PKGDATADIR, extra_python_dir])
 

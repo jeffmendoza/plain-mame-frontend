@@ -11,7 +11,8 @@ setup(name=name,
       requires=['libxml2', 'curses', 'sys',],
       scripts=['bindir/pmfe',],
       license='GPL',
-      data_files=[("share/%s" % name, ['datadir/pmfe_cli.py',  'datadir/pmfe_tui.py']),
+      data_files=[("share/%s" % name, ['datadir/pmfe_cli.py',
+                                       'datadir/pmfe_tui.py']),
                   ("/etc/%s" % name, ['sysconfdir/pmfe.ini'])],
       long_description="""Plain MAME Frontend is a basic, easy to use frontend to mame.
 It works out of the box with no config, and provides menus customized to the set of games you have, not the whole mame set.
