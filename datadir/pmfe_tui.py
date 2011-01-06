@@ -1,5 +1,12 @@
 import curses
 
+def xml_query():
+    """Ask user if they want to generate xml"""
+    if raw_input("XML does not exist, Generate? (y/n): ") == "y":
+        return True
+    else:
+        return False
+
 def play_query(game):
     """Ask user if they want to play arg 'game'.
 

@@ -1,20 +1,33 @@
+import ConfigParser
 import games
 import glob
 import os
 import subprocess
-import string
+
+class XMLError(Exception):
+    pass
 
 class Core:
+    def __init__(self):
+        self.conf = Conf()
+
     def get_game_list(self):
         """Return a Games object containing the list of games available on the system."""
-        game_list = RomList(Conf.rom_dir)
+        game_list = RomList(self.conf.rom_dirs)
         mame_games = games.Games()
-        mame_games.load_from_xml(Conf.xml, game_list)
+        try:
+            mame_games.load_from_xml(self.conf.mame_xml, game_list)
+        except games.XMLError:
+            raise XMLError
         return mame_games
 
     def generate_xml(self):
         """Generate the mame xml if it does not exist."""
-        pass
+        xml_file = open(self.conf.mame_xml, 'wb')
+        subprocess.Popen([self.conf.mame_bin, '-listxml'],
+                         stdout=xml_file).wait()
+        xml_file.close()
+
 
     def get_attr_list(self, game_list, category):
         """Return a list of values for a certian attribute in a list of games."""
@@ -34,14 +47,14 @@ class Core:
 
     def play_game(self, game):
         """Execute mame to play game."""
-        subprocess.Popen([Conf.mame_bin, game["name"]]).wait()
+        subprocess.Popen([self.conf.mame_bin, game["name"]]).wait()
 
 
 class RomList(list):
-    def __init__(self, rom_dir, dummy=False):
+    def __init__(self, rom_dirs, dummy=False):
         """Build this list of names of roms on the system.
 
-        rom_dir -- directory on the filesystem where the roms are
+        rom_dirs -- directorys on the filesystem where the roms are
         dummy -- build a dummy list for testing
 
         """
@@ -51,14 +64,24 @@ class RomList(list):
                 self.append(line.strip())
             game_list_file.close()
         else:
-            for rom in glob.glob(os.path.join(rom_dir, '*.zip')):
-                self.append(string.strip(os.path.basename(rom), ".zip"))
+            for rom_dir in rom_dirs:
+                for rom in glob.glob(os.path.join(rom_dir, '*.zip')):
+                    self.append(os.path.basename(rom).split('.')[0])
 
 class Conf:
-    import sys
     """Object to represent the system config, ini file."""
-    xml = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),"..",
-                       "test","mame.xml")
-    mame_bin = "/usr/games/mame"
-    rom_dir = os.path.expandvars("$HOME/.mame/roms")
 
+    def __init__(self):
+        config = ConfigParser.SafeConfigParser()
+        config.readfp(open('../sysconfdir/pmfe.ini'))
+        self.mame_bin = config.get('pmfe', 'mame_bin')
+        self.mame_ini = config.get('pmfe', 'mame_ini')
+        self.mame_xml = config.get('pmfe', 'mame_xml')
+        mi_file = open(self.mame_ini)
+        line = ''
+        while line.startswith('rompath') is False:
+            line = mi_file.readline()
+        mi_file.close()
+        romdirs = line.split()[1]
+        romdirs = romdirs.split(';')
+        self.rom_dirs = [os.path.expandvars(romdir) for romdir in romdirs]

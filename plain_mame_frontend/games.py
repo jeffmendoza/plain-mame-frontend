@@ -7,6 +7,9 @@ def find_node(node, name):
         node = node.next
     return None
 
+class XMLError(Exception):
+    pass
+
 class Game(dict):
     search_attributes = ["sourcefile", "year", "manufacturer", "type",
                          "orientation", "status", "parent", "isbios"]
@@ -79,7 +82,10 @@ class Games(list):
         gamelist -- list of srings of game names to import, ignore others
 
         """
-        doc = libxml2.parseFile(xmlfile)
+        try:
+            doc = libxml2.parseFile(xmlfile)
+        except libxml2.parserError:
+            raise XMLError
         root = doc.children
         while root is not None and root.type != 'element': root = root.next
         game_node = root.children
