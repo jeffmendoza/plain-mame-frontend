@@ -1,0 +1,20 @@
+Source: plain-mame-frontend
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Jeff Mendoza <jefflmendoza@gmail.com>
+Section: games
+Priority: optional
+Build-Depends: debhelper (>= 7), python-support (>= 0.8.4)
+Standards-Version: 3.8.4
+XS-Python-Version: current
+
+Package: plain-mame-frontend
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+XB-Python-Version: ${python:Versions}
+Provides: ${python:Provides}
+Recommends: mame
+Description: Plain MAME Frontend
+ Plain MAME Frontend is a basic, easy to use frontend to mame.
+ It works out of the box with no config, and provides menus customized to the set of games you have, not the whole mame set.
+ PMFE is a console program used with the keyboard.
+ .
