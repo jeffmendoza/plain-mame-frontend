@@ -1,19 +1,15 @@
 
-conf/ini mame dirs - real run
-    make ini, read mame_bin from ini, etc
-    read romdir from mame ini
-    logic to create mame.xml
-
 autotools - make install?
+automate changing of dirs from local to installed
 which way to go?
       autotools - make
       distutils - stdeb - try for now
       standard deb stuff?
-
 rpm/deb packaging
 
 next ver:
 
+option to regen mame.xml for updated mame
 curses game info and prompt
 pause after mame run, hit key
 esc to go back, not just "back"
