@@ -1,3 +1,4 @@
+change mame.xml location to under the users home dir
 
 autotools - make install?
 automate changing of dirs from local to installed

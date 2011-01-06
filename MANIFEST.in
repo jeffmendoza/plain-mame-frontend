@@ -1,0 +1,5 @@
+include datadir/pmfe_cli.py 
+include datadir/pmfe_tui.py
+include sysconfdir/pmfe.ini
+include stdeb.cfg
+

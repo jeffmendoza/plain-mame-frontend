@@ -1,8 +1,28 @@
+# Copyright 2011 Jeff Mendoza <jefflmendoza@gmail.com>
+#
+# This file is part of Plain MAME Frontend.
+#
+# Plain MAME Frontend is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Plain MAME Frontend is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Plain MAME Frontend.  If not, see <http://www.gnu.org/licenses/>.
+
 import ConfigParser
 import games
 import glob
 import os
 import subprocess
+
+PKGSYSCONFDIR="/etc/plain-mame-frontend"
+#PKGSYSCONFDIR=os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "..", "sysconfdir")
 
 class XMLError(Exception):
     pass
@@ -73,7 +93,7 @@ class Conf:
 
     def __init__(self):
         config = ConfigParser.SafeConfigParser()
-        config.readfp(open('../sysconfdir/pmfe.ini'))
+        config.readfp(open(os.path.join(PKGSYSCONFDIR, 'pmfe.ini')))
         self.mame_bin = config.get('pmfe', 'mame_bin')
         self.mame_ini = config.get('pmfe', 'mame_ini')
         self.mame_xml = config.get('pmfe', 'mame_xml')
